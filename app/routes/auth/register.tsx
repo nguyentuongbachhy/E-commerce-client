@@ -1,160 +1,155 @@
-import { useState } from 'react';
-import { Link } from 'react-router';
-import background from '../../utils/images/registerBackground.svg';
-import type { Route } from "./+types/register";
+import { useState } from "react";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import styled from "styled-components";
 
+const RegisterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url(https://raw.githubusercontent.com/CiurescuP/LogIn-Form/main/bg.jpg);
+  background-size: cover;
+  background-position: center;
+`;
 
-export function meta({ }: Route.MetaArgs) {
-    return [
-        { title: "Register" }
-    ];
-}
+const Form = styled.form`
+  width: 450px;
+  background-color: rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(5px);
+  padding: 20px;
+  border-radius: 17px;
+  box-shadow: 0 0 40px rgba(129, 236, 174, 0.6);
+  text-align: center;
+`;
 
-export default function Login() {
+const Title = styled.h3`
+  font-size: 40px;
+  font-weight: 600;
+  color: white;
+`;
 
-    const [authChecked, setAuthChecked] = useState(false);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [errorUsername, setErrorUsername] = useState('');
-    const [errorPassword, setErrorPassword] = useState('');
-    const [errorConfirm, setErrorConfirm] = useState('')
-    const [error, setError] = useState('')
-    const [isChecked, setIsChecked] = useState(false)
+const Label = styled.label`
+  display: block;
+  margin-top: 30px;
+  font-size: 25px;
+  font-weight: 800;
+  color: white;
+`;
 
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 2px solid #38363654;
+  border-radius: 5px;
+  color: white;
+  &:hover {
+    background: #434343;
+  }
+  &:focus {
+    background: #434343;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+  }
+`;
 
-    const checkConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setErrorConfirm('')
-        if (!e.target.value) {
-            setErrorConfirm('Please fill confirm password field!')
-        } else if (e.target.value !== password) {
-            setErrorConfirm('Passwords do not match!')
-        }
-    }
+const Button = styled.button`
+  width: 100%;
+  margin-top: 30px;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  background: rgba(0, 0, 0, 0.22);
+  border: 2px solid #38363654;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background: #629677;
+  }
+  &:focus {
+    box-shadow: 0px 0px 4px 2px rgba(103, 110, 103, 0.71);
+  }
+`;
 
-    const toggleCheckbox = () => {
-        setIsChecked(!isChecked)
-    }
+const SocialText = styled.p`
+  font-size: 18px;
+  margin-top: 15px;
+  color: white;
+`;
 
-    return (
-        <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-            <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
-                <div className="flex-1 bg-green-100 text-center hidden lg:flex">
-                    <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
-                        style={{ backgroundImage: `url(${background})` }}>
-                    </div>
-                </div>
+const SocialIcons = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+`;
 
-                <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 bg-gradient-to-b from-white via-green-50 to-green-100">
-                    <div id="logo">
-                        <p className="text-3xl font-bold text-center">
-                            E-Commerce
-                        </p>
-                    </div>
-                    <div className="mt-12 flex flex-col items-center">
-                        <div className="w-full flex-1 mt-8">
+const SocialButton = styled.button`
+  width: 40px;
+  height: 40px;
+  margin: 0 10px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.5);
+  }
+`;
 
-                            <div className="mx-auto max-w-xs">
-                                <div className="flex gap-1 flex-col">
-                                    <input
-                                        className="w-full p-4 rounded-lg font-medium bg-white border border-gray-100 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                        type="email" placeholder="Email" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                                    {errorUsername && <p className="text-red-500 font-medium text-sm">{errorUsername}</p>}
-                                </div>
-                                <div className="flex gap-1 flex-col">
-                                    <input
-                                        className="w-full p-4 rounded-lg font-medium bg-white border border-gray-100 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                                        type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                                    {errorPassword && <p className="text-red-500 font-medium text-sm">{errorPassword}</p>}
-                                </div>
+const Register = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-                                <div className="flex gap-1 flex-col">
-                                    <input
-                                        className="w-full p-4 rounded-lg font-medium bg-white border border-gray-100 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                                        type="password" placeholder="Confirm password" onChange={checkConfirm} required />
-                                    {errorConfirm && <p className="text-red-500 font-medium text-sm">{errorConfirm}</p>}
-                                </div>
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Registering:", username, password);
+  };
 
-                                <div className="mt-6 flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        id="termsCheckbox"
-                                        className="cursor-pointer mr-2 h-4 w-4 text-green-500 focus:ring-green-400 border-gray-300 rounded bg-white"
-                                        required
-                                    />
+  return (
+    <RegisterContainer>
+      <Form onSubmit={handleSubmit}>
+        <Title>Register Here</Title>
 
-                                    <label htmlFor="termsCheckbox" className="text-xs text-gray-600">
-                                        I agree to
-                                        <a href="#" className="border-b text-blue-400 border-blue-400 border-dotted mx-1">
-                                            Terms of Service
-                                        </a>
-                                        and its
-                                        <a href="#" className="border-b text-blue-400 border-blue-400 border-dotted mx-1">
-                                            Privacy Policy
-                                        </a>
-                                    </label>
-                                </div>
+        <Label>Username</Label>
+        <Input
+          type="text"
+          placeholder="Email or Phone"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
 
-                                <button
-                                    type="submit"
-                                    className="cursor-pointer mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                                >
-                                    <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth="2"
-                                        strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                                        <circle cx="8.5" cy="7" r="4" />
-                                        <path d="M20 8v6M23 11h-6" />
-                                    </svg>
-                                    <span className="ml-3">
-                                        Sign up
-                                    </span>
-                                </button>
-                                {error && <p className="text-red-500 font-medium">{error}</p>}
-                            </div>
+        <Label>Password</Label>
+        <Input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
+        <Button type="submit">Register</Button>
 
+        <SocialText>Register with a social media account</SocialText>
 
-                            <div className="my-12 border-b text-center">
-                                <div
-                                    className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-green-100 transform translate-y-1/2">
-                                    Or sign up using
-                                </div>
-                            </div>
+        <SocialIcons>
+          <SocialButton>
+            <FaFacebook />
+          </SocialButton>
+          <SocialButton>
+            <FaTwitter />
+          </SocialButton>
+          <SocialButton>
+            <FaInstagram />
+          </SocialButton>
+        </SocialIcons>
+      </Form>
+    </RegisterContainer>
+  );
+};
 
-
-                            <div className="flex flex-col items-center">
-                                <button
-                                    className="cursor-pointer w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-green-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
-                                    <div className="bg-white p-2 rounded-full">
-                                        <svg className="w-4" viewBox="0 0 533.5 544.3">
-                                            <path
-                                                d="M533.5 278.4c0-18.5-1.5-37.1-4.7-55.3H272.1v104.8h147c-6.1 33.8-25.7 63.7-54.4 82.7v68h87.7c51.5-47.4 81.1-117.4 81.1-200.2z"
-                                                fill="#4285f4" />
-                                            <path
-                                                d="M272.1 544.3c73.4 0 135.3-24.1 180.4-65.7l-87.7-68c-24.4 16.6-55.9 26-92.6 26-71 0-131.2-47.9-152.8-112.3H28.9v70.1c46.2 91.9 140.3 149.9 243.2 149.9z"
-                                                fill="#34a853" />
-                                            <path
-                                                d="M119.3 324.3c-11.4-33.8-11.4-70.4 0-104.2V150H28.9c-38.6 76.9-38.6 167.5 0 244.4l90.4-70.1z"
-                                                fill="#fbbc04" />
-                                            <path
-                                                d="M272.1 107.7c38.8-.6 76.3 14 104.4 40.8l77.7-77.7C405 24.6 339.7-.8 272.1 0 169.2 0 75.1 58 28.9 150l90.4 70.1c21.5-64.5 81.8-112.4 152.8-112.4z"
-                                                fill="#ea4335" />
-                                        </svg>
-                                    </div>
-                                    <span className="ml-4">
-                                        Sign In with Google
-                                    </span>
-                                </button>
-                            </div>
-
-                            <p className="text-center text-sm leading-6 mt-2">
-                                Already have account? <Link to={"/login"} className="cursor-pointer text-blue-500 hover:text-blue-400">Log in</Link>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    )
-}
+export default Register;
