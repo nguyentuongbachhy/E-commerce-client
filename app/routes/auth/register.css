@@ -1,0 +1,72 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url("/background.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  .register-card {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+  }
+  
+  .register-card h2 {
+    margin-bottom: 15px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .register-btn {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .register-btn:hover {
+    background: #0056b3;
+  }
+  
+  .social-login {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+  }
+  
+  .social-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background 0.3s;
+  }
+  
+  .social-icon img {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .social-icon:hover {
+    transform: scale(1.2);
+    background: rgba(255, 255, 255, 0.5);
+  }
+  
