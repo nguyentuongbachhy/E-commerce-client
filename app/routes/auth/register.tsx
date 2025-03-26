@@ -185,7 +185,33 @@ const Register = () => {
   };
 
   const handleSocialLogin = (platform: string) => {
-    console.log(`Logging in with ${platform}`);
+    let loginUrl = '';
+
+    switch (platform) {
+      case 'Google':
+        loginUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' +
+          'client_id=661595722364-431pg2ie0oodjguvqs8tga96a3epte1f.apps.googleusercontent.com&' +
+          'redirect_uri=http://localhost:5173/oauth2callback&' +
+          'response_type=code&' +
+          'scope=email%20profile&' +
+          'prompt=consent';
+        break;
+      
+      case 'Facebook':
+        loginUrl = 'https://www.facebook.com/v12.0/dialog/oauth?' +
+          'client_id=517156787856726&' +
+          'redirect_uri=http://localhost:5173/auth/facebook/callback&' +
+          'response_type=code&';
+          // 'scope=email';
+        break;
+      
+      default:
+        console.error('Unknown platform');
+        return;
+    }
+
+    // Open the OAuth login page in a new window
+    window.location.href = loginUrl;
   };
 
   return (
@@ -217,7 +243,7 @@ const Register = () => {
           type="submit" 
           disabled={isProcessing}
         >
-          {isProcessing ? 'Đang đăng ký...' : 'Register'}
+          {isProcessing ? 'Loading ...' : 'Register'}
         </Button>
 
         <SocialText>Register with a social media account</SocialText>
